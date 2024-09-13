@@ -1,7 +1,7 @@
 // src/pages/LoginPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/apiService';
+import { loginUser } from '../../services/userService';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ const LoginPage = () => {
             const response = await loginUser({ email, password });
             const { token } = response;
             localStorage.setItem('token', token);
-            navigate('/dashboard'); // Redirige al usuario después del login
+            navigate('/home'); // Redirige al usuario después del login
         } catch (err) {
             setError('Email o contraseña incorrectos');
         }

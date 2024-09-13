@@ -91,3 +91,14 @@ export const deleteUser = async (id, token) => {
         throw error;
     }
 };
+
+// Obtener datos del usuario
+export const getUserInfo = async (id) => {
+    try {
+      const response = await api.get('/users/id'); // Asegúrate de que esta ruta devuelva la información del usuario, incluyendo el rol
+      return response.data;
+    } catch (error) {
+      console.error('Error al obtener la información del usuario:', error);
+      throw error;
+    }
+  };
