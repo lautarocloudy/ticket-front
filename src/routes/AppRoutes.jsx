@@ -1,15 +1,18 @@
+// src/App.jsx
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from '../pages/login/LoginPage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginPage from '../pages/login/LoginPage';
+import Dashboard from '../pages/dashboard';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        {/* Aquí se agregarán más rutas en el futuro */}
-      </Routes>
-    </Router>
-  </React.StrictMode>,
-);
+const AppRoutes = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<LoginPage />} />
+                <Route path="/dashboard" element={<Dashboard />} /> {/* Asegúrate de crear este componente */}
+            </Routes>
+        </Router>
+    );
+};
+
+export default AppRoutes;

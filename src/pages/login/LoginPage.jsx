@@ -1,60 +1,66 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+// src/pages/LoginPage.jsx
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { decode } from 'jwt-decode';
-import { login } from '../../services/apiService';
+import { loginUser } from '../../services/apiService';
 
-const Login = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const navigate = useNavigate();
+const LoginPage = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await login(data);
-      const { token } = response;
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setError('');
 
-      // Guarda el token en localStorage
-      localStorage.setItem('token', token);
+        try {
+            const response = await loginUser({ email, password });
+            const { token } = response;
+            localStorage.setItem('token', token);
+            navigate('/dashboard'); // Redirige al usuario después del login
+        } catch (err) {
+            setError('Email o contraseña incorrectos');
+        }
+    };
 
-      // Decodifica el token y redirige según el rol
-      const decodedToken = decode(token);
-      if (decodedToken.role === 'admin') {
-        navigate('/admin');
-      } else if (decodedToken.role === 'ticket') {
-        navigate('/tickets');
-      } else {
-        navigate('/user-tickets');
-      }
-    } catch (error) {
-      console.error('Error al iniciar sesión:', error);
-      alert(error);
-    }
-  };
-
-  return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>Correo electrónico</label>
-          <input
-            type="email"
-            {...register('email', { required: 'El correo es obligatorio' })}
-          />
-          {errors.email && <p>{errors.email.message}</p>}
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+                <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+                {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+                <form onSubmit={handleLogin}>
+                    <div className="mb-4">
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                            required
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
+                    >
+                        Login
+                    </button>
+                </form>
+            </div>
         </div>
-        <div>
-          <label>Contraseña</label>
-          <input
-            type="password"
-            {...register('password', { required: 'La contraseña es obligatoria' })}
-          />
-          {errors.password && <p>{errors.password.message}</p>}
-        </div>
-        <button type="submit">Iniciar sesión</button>
-      </form>
-    </div>
-  );
+    );
 };
 
-export default Login;
+export default LoginPage;
