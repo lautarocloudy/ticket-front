@@ -1,12 +1,22 @@
 import axios from 'axios';
 
-// Configuración base de la API
+// Crear instancia de Axios
 const api = axios.create({
-  baseURL: 'http://localhost:3000', // Cambia esto si tu API está en otro dominio o puerto
+  baseURL: 'http://localhost:3000/api', // Cambia esto si tu API está en otro dominio o puerto
   headers: {
     'Content-Type': 'application/json',
-    // Agrega aquí cualquier header adicional, como el token de autenticación
   },
+});
+
+// Configurar interceptor para agregar el token de autenticación
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
 });
 
 // Obtener todos los tickets
@@ -55,12 +65,11 @@ export const deleteTicket = async (id) => {
 
 // Obtener todos los tickets de un usuario específico
 export const getTicketsByUserId = async (userId) => {
-    try {
-      const response = await api.get(`/tickets/user/${userId}`);
-      return response.data;
-    } catch (error) {
-      console.error('Error al obtener tickets del usuario:', error);
-      throw error;
-    }
-  };
-  
+  try {
+    const response = await api.get(`/tickets/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error al obtener tickets del usuario:', error);
+    throw error;
+  }
+};
