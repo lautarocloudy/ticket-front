@@ -20,9 +20,32 @@ api.interceptors.request.use((config) => {
 });
 
 // Obtener todos los tickets
-export const getAllTickets = async () => {
+// export const getAllTickets = async () => {
+//   try {
+//     const response = await api.get('/tickets');
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error al obtener tickets:', error);
+//     throw error;
+//   }
+// };
+export const getAllTickets = async (filters = {}) => {
   try {
-    const response = await api.get('/tickets');
+    // Desestructurar filtros para construir la query string
+    const { status, difficulty, startDate, endDate } = filters;
+    
+    // Construir la query string
+    let query = '';
+    if (status) query += `status=${status}&`;
+    if (difficulty) query += `difficulty=${difficulty}&`;
+    if (startDate) query += `startDate=${startDate}&`;
+    if (endDate) query += `endDate=${endDate}&`;
+    
+    // Eliminar el último '&' si existe
+    query = query ? query.slice(0, -1) : '';
+    
+    // Realizar la solicitud GET con los filtros
+    const response = await api.get(`/tickets?${query}`);
     return response.data;
   } catch (error) {
     console.error('Error al obtener tickets:', error);
@@ -64,12 +87,21 @@ export const deleteTicket = async (id) => {
 };
 
 // Obtener todos los tickets de un usuario específico
-export const getTicketsByUserId = async (userId) => {
+// export const getTicketsByUserId = async (userId) => {
+//   try {
+//     const response = await api.get(`/tickets/user/${userId}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error al obtener tickets del usuario:', error);
+//     throw error;
+//   }
+// };
+export const getTicketsByUserId = async (userId, filters = {}) => {
   try {
-    const response = await api.get(`/tickets/user/${userId}`);
+    const response = await api.get(`/tickets/user/${userId}`, { params: filters });
     return response.data;
   } catch (error) {
-    console.error('Error al obtener tickets del usuario:', error);
+    console.error('Error al obtener tickets por usuario:', error);
     throw error;
   }
 };
