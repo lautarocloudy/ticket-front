@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import { createTicket } from '../../services/ticketService'; // Servicio para crear un ticket
+import { getUserInfoFromToken } from '../../utils/jwtUtils';
 
-const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
+const TicketCreateModal = ({ isOpen, onClose, onCreate }) => {
   const [formData, setFormData] = useState({
-    name: ticket.name,
-    description: ticket.description,
-    status: ticket.status,
-    difficulty: ticket.difficulty,
+    name: '',
+    description: '',
+    status: 'pendiente', // Estado por defecto
+    difficulty: 'fácil', // Dificultad por defecto
+    user_id: '' // Inicialmente vacío
   });
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (ticket) {
-      setFormData({
-        name: ticket.name,
-        description: ticket.description,
-        status: ticket.status,
-        difficulty: ticket.difficulty,
-      });
+    // Obtener el token y actualizar el user_id cuando el modal se abre
+    const token = localStorage.getItem('token');
+    const userInfo = getUserInfoFromToken(token);
+    if (userInfo && userInfo.userId) {
+      setFormData(prevState => ({ ...prevState, user_id: userInfo.userId }));
     }
-  }, [ticket]);
+  }, [isOpen]); // Solo cuando el modal se abre
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,11 +29,14 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí puedes hacer la solicitud para actualizar el ticket
-    // Ejemplo: await updateTicket(ticket.id, formData);
-
-    onUpdate(); // Actualiza la lista de tickets
-    onClose(); // Cierra el modal
+    try {
+      await createTicket(formData); // Llama al servicio para crear el ticket
+      onCreate(); // Actualiza la lista de tickets
+      onClose(); // Cierra el modal
+    } catch (err) {
+      setError('Error al crear el ticket');
+      console.error(err);
+    }
   };
 
   return (
@@ -41,43 +46,37 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
       ariaHideApp={false}
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
-      contentLabel="Edit Ticket"
+      contentLabel="Create Ticket"
     >
       <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Edit Ticket</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Nuevo Ticket</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Name:
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Nombre del Ticket:</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              disabled={userRole === 'user'}
+              required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Description:
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Description:</label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
               rows="4"
-              disabled={userRole === 'user'}
+              required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Status:
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Status:</label>
             <select
               name="status"
               value={formData.status}
@@ -90,15 +89,12 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Difficulty:
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Difficulty:</label>
             <select
               name="difficulty"
               value={formData.difficulty}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              disabled={userRole === 'user'}
             >
               <option value="fácil">Fácil</option>
               <option value="medio">Medio</option>
@@ -106,12 +102,14 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
             </select>
           </div>
 
+          {error && <p className="text-red-500">{error}</p>}
+
           <div className="flex justify-end space-x-4">
             <button
               type="submit"
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             >
-              Update
+              Create
             </button>
             <button
               type="button"
@@ -127,4 +125,4 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
   );
 };
 
-export default TicketEditModal;
+export default TicketCreateModal;
