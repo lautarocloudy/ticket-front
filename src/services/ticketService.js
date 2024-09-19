@@ -1,12 +1,14 @@
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL; 
 // Crear instancia de Axios
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api', // Cambia esto si tu API está en otro dominio o puerto
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
 
 // Configurar interceptor para agregar el token de autenticación
 api.interceptors.request.use((config) => {

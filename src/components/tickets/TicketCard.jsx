@@ -2,52 +2,39 @@ import React from 'react';
 import { TrashIcon } from '@heroicons/react/solid';
 
 const TicketCard = ({ ticket, onClick, onDelete }) => {
-  // Función para determinar el color según la dificultad
-  const getDifficultyColor = (difficulty) => {
+  // Función para determinar los estilos según la dificultad
+  const getDifficultyStyles = (difficulty) => {
     switch (difficulty) {
       case 'difícil':
-        return 'red-500';  // Rojo para dificultad difícil
+        return { border: 'border-red-500', bg: 'bg-red-50', text: 'bg-red-500' };
       case 'medio':
-        return 'yellow-500';  // Amarillo para dificultad media
+        return { border: 'border-yellow-500', bg: 'bg-yellow-50', text: 'bg-yellow-500' };
       case 'fácil':
-        return 'green-500';  // Verde para dificultad fácil
+        return { border: 'border-green-500', bg: 'bg-green-50', text: 'bg-green-500' };
       default:
-        return 'gray-300';  // Gris para dificultad desconocida
+        return { border: 'border-gray-300', bg: 'bg-gray-50', text: 'bg-gray-300' };
     }
   };
 
-  // Función para obtener un color de fondo más claro
-  const getLightDifficultyColor = (difficulty) => {
-    switch (difficulty) {
-      case 'difícil':
-        return 'red-50'; // Color rojo claro
-      case 'medio':
-        return 'yellow-50'; // Color amarillo claro
-      case 'fácil':
-        return 'green-50'; // Color verde claro
-      default:
-        return 'gray-50'; // Color gris claro
-    }
-  };
+  const { border, bg, text } = getDifficultyStyles(ticket.difficulty);
 
   return (
-    <div className={`border-l-4 border-${getDifficultyColor(ticket.difficulty)} p-4 rounded-lg shadow-lg bg-${getLightDifficultyColor(ticket.difficulty)}`}>
+    <div className={`border-l-4 ${border} p-4 rounded-lg shadow-lg ${bg}`}>
       <div 
         className="bg-white p-4 rounded-lg shadow-md w-full max-w-sm cursor-pointer hover:bg-gray-100" 
-        onClick={onClick} // Llama a la función onClick cuando se hace clic en la tarjeta
+        onClick={onClick}
       >
         {/* Encabezado de la tarjeta */}
         <div className="flex justify-between items-center mb-2">
-          <span className={`px-2 py-1 rounded-full text-white text-sm bg-${getDifficultyColor(ticket.difficulty)}`}>
-          {ticket.difficulty ? ticket.difficulty.charAt(0).toUpperCase() + ticket.difficulty.slice(1) : ''}
-
+          <span className={`px-2 py-1 rounded-full text-white text-sm ${text}`}>
+            {ticket.difficulty ? ticket.difficulty.charAt(0).toUpperCase() + ticket.difficulty.slice(1) : ''}
           </span>
 
           {/* Botón de eliminar con ícono de basura */}
           <button 
             onClick={(e) => {
-              e.stopPropagation(); // Evita que el evento onClick de la tarjeta se dispare
-              onDelete(ticket.id); // Llama a la función onDelete pasando el ID del ticket
+              e.stopPropagation();
+              onDelete(ticket.id);
             }} 
             className="text-red-600 hover:text-red-800"
           >

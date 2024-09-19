@@ -69,7 +69,7 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
               value={formData.description}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              rows="4"
+              rows={4}
               disabled={userRole === 'user'}
             />
           </div>

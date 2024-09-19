@@ -11,7 +11,7 @@ const TicketCreateModal = ({ isOpen, onClose, onCreate }) => {
     difficulty: 'fácil', // Dificultad por defecto
     user_id: '' // Inicialmente vacío
   });
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     // Obtener el token y actualizar el user_id cuando el modal se abre
@@ -70,7 +70,7 @@ const TicketCreateModal = ({ isOpen, onClose, onCreate }) => {
               value={formData.description}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              rows="4"
+              rows={4}
               required
             />
           </div>
