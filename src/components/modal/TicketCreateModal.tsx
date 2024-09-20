@@ -31,7 +31,6 @@ const TicketCreateModal = ({ isOpen, onClose, onCreate }) => {
     e.preventDefault();
     try {
       await createTicket(formData); // Llama al servicio para crear el ticket
-      onCreate(); // Actualiza la lista de tickets
       onClose(); // Cierra el modal
     } catch (err) {
       setError('Error al crear el ticket');

@@ -30,23 +30,21 @@ const TicketCard = ({ ticket, onClick, onDelete }) => {
             {ticket.difficulty ? ticket.difficulty.charAt(0).toUpperCase() + ticket.difficulty.slice(1) : ''}
           </span>
 
-          {/* Botón de eliminar con ícono de basura */}
-          <button 
+          {/* Ícono de eliminar */}
+          <TrashIcon 
+            className="h-6 w-6 text-red-600 hover:text-red-800 cursor-pointer" 
             onClick={(e) => {
               e.stopPropagation();
               onDelete(ticket.id);
             }} 
-            className="text-red-600 hover:text-red-800"
-          >
-            <TrashIcon className="h-6 w-6" />
-          </button>
+          />
         </div>
     
         {/* Nombre del ticket */}
         <h2 className="text-lg font-semibold text-gray-900 mb-1">{ticket.name}</h2>
     
         {/* Descripción del ticket */}
-        <p className="text-gray-600 text-sm mb-4">{ticket.description || 'Sin descripción'}</p>
+        <p className="text-gray-600 text-sm line-clamp-2 mb-4">{ticket.description || 'Sin descripción'}</p>
     
         {/* Información adicional */}
         <div className="flex items-center">

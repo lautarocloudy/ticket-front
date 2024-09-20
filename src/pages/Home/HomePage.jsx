@@ -8,13 +8,13 @@ import TicketCreateModal from '../../components/modal/TicketCreateModal'; // Mod
 const HomePage = () => {
   const [tickets, setTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null); // Estado para el ticket seleccionado
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para el modal de edición
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false); // Estado para el modal de edición
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); // Estado para el modal de creación
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchUserAndTickets();
-  }, []);
+  }, [isUpdateModalOpen, isCreateModalOpen]);
 
   const fetchUserAndTickets = async () => {
     const token = localStorage.getItem('token');
@@ -42,11 +42,11 @@ const HomePage = () => {
 
   const openModal = (ticket) => {
     setSelectedTicket(ticket);
-    setIsModalOpen(true);
+    setIsUpdateModalOpen(true);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsUpdateModalOpen(false);
     setSelectedTicket(null);
   };
 
@@ -56,10 +56,6 @@ const HomePage = () => {
 
   const closeCreateModal = () => {
     setIsCreateModalOpen(false);
-  };
-
-  const handleUpdate = async () => {
-    await fetchUserAndTickets(); // Actualiza la lista de tickets después de la edición
   };
 
   const handleDeleteTicket = async (ticketId) => {
@@ -82,7 +78,7 @@ const HomePage = () => {
         
         <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
           {/* Columna de Tickets Pendientes */}
-          <div className="border p-4 rounded-lg shadow bg-white">
+          <div className="border p-4 rounded-lg shadow bg-white h-[calc(100vh-150px)] overflow-y-auto">
             <h2 className="text-2xl font-bold text-black-700 mb-4">Tickets Pendientes</h2>
             {pendingTickets.length === 0 ? (
               <p className="text-gray-700">No hay tickets pendientes.</p>
@@ -102,7 +98,7 @@ const HomePage = () => {
           </div>
 
           {/* Columna de Tickets Completados */}
-          <div className="border p-4 rounded-lg shadow bg-white">
+          <div className="border p-4 rounded-lg shadow bg-white h-[calc(100vh-150px)] overflow-y-auto">
             <h2 className="text-2xl font-bold text-black-700 mb-4">Tickets Realizados</h2>
             {completedTickets.length === 0 ? (
               <p className="text-black-700">No hay tickets realizados.</p>
@@ -124,10 +120,9 @@ const HomePage = () => {
 
         {selectedTicket && (
           <TicketEditModal
-            isOpen={isModalOpen}
+            isOpen={isUpdateModalOpen}
             onClose={closeModal}
             ticket={selectedTicket}
-            onUpdate={handleUpdate}
           />
         )}
 
@@ -136,7 +131,6 @@ const HomePage = () => {
           <TicketCreateModal 
             isOpen={isCreateModalOpen}
             onClose={closeCreateModal}
-            onCreate={handleUpdate} // Podrías pasar la función de creación aquí
           />
         )}
 

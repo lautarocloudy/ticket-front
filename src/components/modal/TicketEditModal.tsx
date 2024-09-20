@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import { updateTicket } from '../../services/ticketService';
 
-const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
+const TicketEditModal = ({ isOpen, onClose, ticket }) => {
+  // Estado del formulario
   const [formData, setFormData] = useState({
     name: ticket.name,
     description: ticket.description,
     status: ticket.status,
     difficulty: ticket.difficulty,
   });
+
+  // Estado para controlar si el formulario está editable
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     if (ticket) {
@@ -22,16 +27,24 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  // Habilitar edición
+  const handleUpdateClick = (e) => {
     e.preventDefault();
-    // Aquí puedes hacer la solicitud para actualizar el ticket
-    // Ejemplo: await updateTicket(ticket.id, formData);
+    setIsEditable(true); // Habilita los campos para edición
+  };
 
-    onUpdate(); // Actualiza la lista de tickets
-    onClose(); // Cierra el modal
+  // Guardar cambios
+  const handleSaveClick = async (e) => {
+    e.preventDefault();
+    try {
+      await updateTicket(ticket.id, formData); // Pasa el ID y los datos del ticket
+      onClose(); // Cierra el modal
+    } catch (err) {
+      console.error('Error al actualizar ticket:', err);
+    }
   };
 
   return (
@@ -45,44 +58,39 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
     >
       <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Edit Ticket</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={isEditable ? handleSaveClick : handleUpdateClick} className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Name:
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Name:</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              disabled={userRole === 'user'}
+              disabled={!isEditable}
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Description:
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Description:</label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
               rows={4}
-              disabled={userRole === 'user'}
+              disabled={!isEditable}
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Status:
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Status:</label>
             <select
               name="status"
               value={formData.status}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
+              disabled={!isEditable}
             >
               <option value="pendiente">Pendiente</option>
               <option value="completado">Completado</option>
@@ -90,15 +98,13 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Difficulty:
-            </label>
+            <label className="block text-gray-700 font-medium mb-1">Difficulty:</label>
             <select
               name="difficulty"
               value={formData.difficulty}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              disabled={userRole === 'user'}
+              disabled={!isEditable}
             >
               <option value="fácil">Fácil</option>
               <option value="medio">Medio</option>
@@ -111,7 +117,7 @@ const TicketEditModal = ({ isOpen, onClose, ticket, onUpdate, userRole }) => {
               type="submit"
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             >
-              Update
+              {isEditable ? 'Save' : 'Update'}
             </button>
             <button
               type="button"

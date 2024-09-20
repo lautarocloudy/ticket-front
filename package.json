@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "axios": "^1.7.7",
     "jwt-decode": "^4.0.0",
     "jwt-simple": "^0.5.6",
