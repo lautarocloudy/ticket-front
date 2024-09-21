@@ -12,12 +12,13 @@ const LoginPage = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
-
+    
         try {
             const response = await loginUser({ email, password });
-            const { token } = response;
-            localStorage.setItem('token', token);
-            navigate('/home'); // Redirige al usuario después del login
+            const { accessToken, refreshToken } = response; // Asegúrate de que tu API devuelva ambos tokens
+            localStorage.setItem('token', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            navigate('/home');
         } catch (err) {
             setError('Email o contraseña incorrectos');
         }

@@ -1,19 +1,35 @@
-// src/App.jsx
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from '../context/AuthContext';
 import LoginPage from '../pages/login/LoginPage';
-import HomePage from '../pages/Home/HomePage';
+import HomePage from '../pages/home/HomePage';
 import TicketsInfo from '../pages/tickets/TicketInfo';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
+import NotFound from '../pages/notFound/NotFound';
+import Navbar from '../components/Navbar';
 
 const AppRoutes = () => {
     return (
-        <Router>
+        <AuthProvider>
+            
             <Routes>
-                <Route path="/" element={<LoginPage />} />
-                <Route path="/home" element={<HomePage />} /> {/* Asegúrate de crear este componente */}
-                <Route path="/tickets-info" element={<TicketsInfo />} />
+                {/* Rutas públicas: Solo accesibles si no hay token */}
+                <Route element={<PublicRoute />}>
+                    <Route path="/" element={<LoginPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                </Route>
+
+                {/* Rutas privadas: Solo accesibles si hay token válido */}
+                <Route element={<PrivateRoute />}>
+                    <Route path="/home" element={<HomePage />} />
+                    <Route path="/tickets-info" element={<TicketsInfo />} />
+                </Route>
+
+                {/* Ruta para manejar URLs incorrectas */}
+                <Route path="*" element={<NotFound />} />
             </Routes>
-        </Router>
+        </AuthProvider>
     );
 };
 

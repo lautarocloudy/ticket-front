@@ -102,3 +102,28 @@ export const getUserInfo = async (id) => {
       throw error;
     }
   };
+
+  export const getNewAccessToken = async (refreshToken) => {
+    try {
+        const response = await apiClient.post('/refresh-token', { refreshToken });
+        return response.data; // Devuelve el nuevo access token
+    } catch (error) {
+        throw error; // Manejo de errores
+    }
+};
+
+export const refreshAccessToken = async () => {
+    try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        const response = await getNewAccessToken(refreshToken);
+        const { accessToken } = response;
+
+        localStorage.setItem('token', accessToken);
+        return accessToken;
+    } catch (error) {
+        console.error('Error al renovar el access token:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        throw error; 
+    }
+};
