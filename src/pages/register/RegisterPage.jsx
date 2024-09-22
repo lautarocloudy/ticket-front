@@ -41,7 +41,7 @@ const RegisterPage = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
                 <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
                     <div className="max-w-md mx-auto">
-                        <h1 className="text-2xl font-semibold text-center">Iniciar sesión</h1>
+                        <h1 className="text-2xl font-semibold text-center">Registrarse</h1>
                         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
                         <div className="divide-y divide-gray-200">
                             <form onSubmit={handleLogin} className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
@@ -104,12 +104,12 @@ const RegisterPage = () => {
                                         type="submit"
                                         className="bg-blue-500 text-white rounded-md px-4 py-2"
                                     >
-                                        Iniciar sesión
+                                        Registrarse
                                     </button>
                                 </div>
                                 <div className="relative">
                                     <p className="text-center text-gray-600">
-                                        ¿Tienes una cuenta?{' '}
+                                        ¿Tienes una cuenta?
                                     </p>
                                     <p className="text-center text-gray-600">
                                     <a href="/Login" className="text-blue-500 hover:text-blue-700">
