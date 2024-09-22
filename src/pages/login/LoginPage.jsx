@@ -1,24 +1,24 @@
-// src/pages/LoginPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/userService';
+import { useAuth } from '../../context/AuthContext'; // Importar el contexto
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth(); // Usar el método login del contexto
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
-    
+
         try {
             const response = await loginUser({ email, password });
-            const { accessToken, refreshToken } = response; // Asegúrate de que tu API devuelva ambos tokens
-            localStorage.setItem('token', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-            navigate('/home');
+            const { accessToken } = response; // Obtener el token del backend
+            login(accessToken); // Guardar el token en el contexto y localStorage
+            navigate('/home'); // Redirigir al home
         } catch (err) {
             setError('Email o contraseña incorrectos');
         }

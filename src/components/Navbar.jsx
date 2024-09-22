@@ -1,17 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const handleLogout = () => {
-    // Lógica para cerrar sesión
-    console.log('Cerrar sesión');
+    // Vaciar el localStorage
+  localStorage.clear();
+
+  // Redirigir a la página de login
+  window.location.href = "/login";
   };
 
   return (
-    <nav className="bg-gray-800 p-4 flex justify-between items-center">
+    <nav className="bg-gray-800 p-4 flex justify-between items-center w-full">
       {/* Imagen a la izquierda */}
       <div className="flex items-center">
         <img src="ruta-de-tu-imagen" alt="Logo" className="h-10 w-10 mr-4" />
-        <span className="text-white text-xl font-semibold">Mi App</span>
+        <span className="text-white text-xl font-semibold">Ticket Manager </span>
       </div>
 
       {/* Botón de salir a la derecha */}

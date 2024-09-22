@@ -41,7 +41,7 @@ const TicketCard = ({ ticket, onClick, onDelete }) => {
         </div>
     
         {/* Nombre del ticket */}
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">{ticket.name}</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">{ticket.name}</h2>
     
         {/* Descripción del ticket */}
         <p className="text-gray-600 text-sm line-clamp-2 mb-4">{ticket.description || 'Sin descripción'}</p>
