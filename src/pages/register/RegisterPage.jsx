@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/userService';
+import { createUser, loginUser } from '../../services/userService';
 import { useAuth } from '../../context/AuthContext';
 
-const LoginPage = () => {
+const RegisterPage = () => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -22,12 +23,12 @@ const LoginPage = () => {
         setError('');
 
         try {
-            const response = await loginUser({ email, password });
+            const response = await createUser({ name, email, password });
             const { accessToken } = response;
             login(accessToken);
-            navigate('/home');
+            navigate('/login');
         } catch (err) {
-            setError('Email o contraseña incorrectos');
+            setError('No se pude crear el usuario');
         }
     };
 
@@ -43,6 +44,24 @@ const LoginPage = () => {
                         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
                         <div className="divide-y divide-gray-200">
                             <form onSubmit={handleLogin} className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                            <div className="relative">
+                                    <input
+                                        autoComplete="off"
+                                        id="name"
+                                        type="text"
+                                        value={name}
+                                        onChange={handleChange(setName)}
+                                        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-rose-600"
+                                        placeholder="Nombre y apellido"
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="name"
+                                        className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                                    >
+                                        Nombre y apellido
+                                    </label>
+                                </div>
                                 <div className="relative">
                                     <input
                                         autoComplete="off"
@@ -89,12 +108,11 @@ const LoginPage = () => {
                                 </div>
                                 <div className="relative">
                                     <p className="text-center text-gray-600">
-                                        ¿No tienes una cuenta?{' '}
-                                        
+                                        ¿Tienes una cuenta?{' '}
                                     </p>
                                     <p className="text-center text-gray-600">
-                                    <a href="/register" className="text-blue-500 hover:text-blue-700">
-                                            Regístrate aquí
+                                    <a href="/Login" className="text-blue-500 hover:text-blue-700">
+                                            Ingresar
                                         </a>
                                     </p>
                                 </div>
@@ -107,4 +125,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default RegisterPage;

@@ -100,18 +100,28 @@ const HomePage = () => {
       {/* Filtros para Tickets Pendientes */}
       <div className="border p-4 rounded-lg shadow bg-white">
         <h2 className="text-2xl font-bold text-black-700 mb-4">Pendientes</h2>
-        <div className="mb-4">
-          <select onChange={(e) => setDifficultyFilterP(e.target.value)} className="mr-2">
-            <option value="">Filtrar por dificultad</option>
-            <option value="fácil">Fácil</option>
-            <option value="medio">Medio</option>
-            <option value="difícil">Difícil</option>
-          </select>
-          <select onChange={(e) => setDateOrderP(e.target.value)}>
-            <option value="asc">Fecha: Más antiguo a más reciente</option>
-            <option value="desc">Fecha: Más reciente a más antiguo</option>
-          </select>
-        </div>
+        <div className="mb-4 flex gap-4">
+  <select 
+    onChange={(e) => setDifficultyFilterP(e.target.value)} 
+    className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  >
+    <option value="">Filtrar por dificultad</option>
+    <option value="fácil">Fácil</option>
+    <option value="medio">Medio</option>
+    <option value="difícil">Difícil</option>
+    <option value="">Todas</option>
+
+  </select>
+  
+  <select 
+    onChange={(e) => setDateOrderP(e.target.value)} 
+    className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  >
+    <option value="asc">Fecha: Más antiguo a más reciente</option>
+    <option value="desc">Fecha: Más reciente a más antiguo</option>
+  </select>
+</div>
+
         <div className="overflow-y-auto max-h-96"> {/* Ajusta la altura máxima según sea necesario */}
           {pendingTickets.length === 0 ? (
             <p className="text-gray-700">No hay tickets pendientes.</p>
@@ -134,18 +144,27 @@ const HomePage = () => {
       {/* Filtros para Tickets Completados */}
       <div className="border p-4 rounded-lg shadow bg-white">
         <h2 className="text-2xl font-bold text-black-700 mb-4">Realizados</h2>
-        <div className="mb-4">
-          <select onChange={(e) => setDifficultyFilterC(e.target.value)} className="mr-2">
-            <option value="">Filtrar por dificultad</option>
-            <option value="fácil">Fácil</option>
-            <option value="medio">Medio</option>
-            <option value="difícil">Difícil</option>
-          </select>
-          <select onChange={(e) => setDateOrderC(e.target.value)}>
-            <option value="asc">Fecha: Más antiguo a más reciente</option>
-            <option value="desc">Fecha: Más reciente a más antiguo</option>
-          </select>
-        </div>
+        <div className="mb-4 flex gap-4">
+  <select 
+    onChange={(e) => setDifficultyFilterC(e.target.value)} 
+    className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  >
+    <option value="">Filtrar por dificultad</option>
+    <option value="fácil">Fácil</option>
+    <option value="medio">Medio</option>
+    <option value="difícil">Difícil</option>
+    <option value="">Todas</option>
+  </select>
+  
+  <select 
+    onChange={(e) => setDateOrderC(e.target.value)} 
+    className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  >
+    <option value="asc">Fecha: Más antiguo a más reciente</option>
+    <option value="desc">Fecha: Más reciente a más antiguo</option>
+  </select>
+</div>
+
         <div className="overflow-y-auto max-h-96"> {/* Ajusta la altura máxima según sea necesario */}
           {completedTickets.length === 0 ? (
             <p className="text-black-700">No hay tickets realizados.</p>

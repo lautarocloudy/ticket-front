@@ -14,7 +14,7 @@ const Navbar = () => {
     <nav className="bg-blue-600 p-4 flex justify-between items-center w-full">
       {/* Imagen a la izquierda */}
       <div className="flex items-center">
-        <img src="./../../../public/ticket-manager.png" alt="Logo" className="h-10 w-10 mr-4" />
+        <img src="/ticket-manager.png" alt="Ticket Manager" className="h-10 w-10 mr-4" />
         <span className="text-white text-xl font-semibold">Ticket Manager </span>
       </div>
 

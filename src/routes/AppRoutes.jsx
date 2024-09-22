@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '../context/AuthContext';
 import LoginPage from '../pages/login/LoginPage';
-import TicketsInfo from '../pages/tickets/TicketInfo';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import NotFound from '../pages/notFound/NotFound';
 import HomePage from '../pages/Home/HomePage';
+import RegisterPage from '../pages/register/RegisterPage';
 
 const AppRoutes = () => {
     return (
@@ -17,12 +17,12 @@ const AppRoutes = () => {
                 <Route element={<PublicRoute />}>
                     <Route path="/" element={<LoginPage />} />
                     <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
                 </Route>
 
                 {/* Rutas privadas: Solo accesibles si hay token válido */}
                 <Route element={<PrivateRoute />}>
                     <Route path="/home" element={<HomePage />} />
-                    <Route path="/tickets-info" element={<TicketsInfo />} />
                 </Route>
 
                 {/* Ruta para manejar URLs incorrectas */}
