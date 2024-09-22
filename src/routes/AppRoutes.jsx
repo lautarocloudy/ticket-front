@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '../context/AuthContext';
 import LoginPage from '../pages/login/LoginPage';
-import HomePage from '../pages/home/HomePage';
 import TicketsInfo from '../pages/tickets/TicketInfo';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import NotFound from '../pages/notFound/NotFound';
-import Navbar from '../components/Navbar';
+import HomePage from '../pages/Home/HomePage';
 
 const AppRoutes = () => {
     return (
