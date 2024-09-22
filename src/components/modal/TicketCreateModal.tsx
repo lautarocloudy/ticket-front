@@ -36,7 +36,6 @@ const TicketCreateModal = ({ isOpen, onClose, onCreate }) => {
       onClose();
     } catch (err) {
       setError('Error al crear el ticket');
-      console.error(err);
     }
   };
 

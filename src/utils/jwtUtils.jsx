@@ -7,7 +7,6 @@ export function getUserInfoFromToken(token) {
           exp: tokenPayload?.exp // Asegúrate de incluir esto
       };
   } catch (error) {
-      console.error('Token inválido:', error);
       return null;
   }
 }

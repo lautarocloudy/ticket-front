@@ -42,7 +42,6 @@ const TicketEditModal = ({ isOpen, onClose, ticket }) => {
       await updateTicket(ticket.id, formData);
       onClose();
     } catch (err) {
-      console.error('Error al actualizar ticket:', err);
     }
   };
 

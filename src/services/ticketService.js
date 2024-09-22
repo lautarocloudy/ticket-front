@@ -26,7 +26,6 @@ export const createTicket = async (ticketData) => {
     const response = await api.post('/tickets', ticketData);
     return response.data;
   } catch (error) {
-    console.error('Error al crear ticket:', error);
     throw error;
   }
 };
@@ -37,7 +36,6 @@ export const updateTicket = async (id, ticketData) => {
     const response = await api.put(`/tickets/${id}`, ticketData);
     return response.data;
   } catch (error) {
-    console.error('Error al actualizar ticket:', error);
     throw error;
   }
 };
@@ -48,7 +46,6 @@ export const deleteTicket = async (id) => {
     const response = await api.delete(`/tickets/${id}`);
     return response.data;
   } catch (error) {
-    console.error('Error al eliminar ticket:', error);
     throw error;
   }
 };
@@ -59,7 +56,6 @@ export const getTicketsByUserId = async (userId, filters = {}) => {
     const response = await api.get(`/tickets/user/${userId}`, { params: filters });
     return response.data;
   } catch (error) {
-    console.error('Error al obtener tickets por usuario:', error);
     throw error;
   }
 };

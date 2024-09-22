@@ -16,7 +16,6 @@ export const createUser = async (userData) => {
         const response = await apiClient.post('/users', userData);
         return response.data;
     } catch (error) {
-        console.error('Error en createUser:', error);
         throw error;
     }
 };
@@ -24,11 +23,9 @@ export const createUser = async (userData) => {
 // Login de usuario
 export const loginUser = async (loginData) => {
     try {
-      console.log(loginData)
         const response = await apiClient.post('/login', loginData);
         return response.data;
     } catch (error) {
-        console.error('Error en loginUser:', error);
         throw error;
     }
 };

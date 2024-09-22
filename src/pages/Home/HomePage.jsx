@@ -39,7 +39,6 @@ const HomePage = () => {
           setPendingTickets([]); // No hay ticket cargado
         } else {
           setError('Error al obtener tickets pendientes');
-          console.error(err);
         }
       }
 
@@ -52,12 +51,10 @@ const HomePage = () => {
           setCompletedTickets([]); // No hay ticket cargado
         } else {
           setError('Error al obtener tickets completados');
-          console.error(err);
         }
       }
     } catch (err) {
       setError('No se pudieron obtener los tickets');
-      console.error(err);
     }
   };
 
@@ -87,7 +84,6 @@ const HomePage = () => {
       setCompletedTickets(completedTickets.filter(ticket => ticket.id !== ticketId));
     } catch (error) {
       setError('Error al eliminar el ticket');
-      console.error(error);
     }
   };
 
