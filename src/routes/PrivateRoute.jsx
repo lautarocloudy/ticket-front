@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Asegúrate de que este hook retorna el token
+import { useAuth } from '../context/AuthContext'; 
 
 const PrivateRoute = () => {
-  const { token } = useAuth(); // Obtenemos el token del contexto de autenticación
+  const { token } = useAuth(); 
 
   return token ? <Outlet /> : <Navigate to="/login" />;
 };

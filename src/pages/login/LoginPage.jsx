@@ -20,7 +20,6 @@ const LoginPage = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
-
         try {
             const response = await loginUser({ email, password });
             const { accessToken } = response;
@@ -31,6 +30,7 @@ const LoginPage = () => {
         }
     };
 
+    // Guardar los datos para el ingreso
     const handleChange = (setter) => (e) => setter(e.target.value);
 
     return (
@@ -90,10 +90,10 @@ const LoginPage = () => {
                                 <div className="relative">
                                     <p className="text-center text-gray-600">
                                         ¿No tienes una cuenta?{' '}
-                                        
+
                                     </p>
                                     <p className="text-center text-gray-600">
-                                    <a href="/register" className="text-blue-500 hover:text-blue-700">
+                                        <a href="/register" className="text-blue-500 hover:text-blue-700">
                                             Regístrate aquí
                                         </a>
                                     </p>

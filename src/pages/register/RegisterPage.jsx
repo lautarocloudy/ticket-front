@@ -32,6 +32,7 @@ const RegisterPage = () => {
         }
     };
 
+    // Guardar los datos para el ingreso
     const handleChange = (setter) => (e) => setter(e.target.value);
 
     return (

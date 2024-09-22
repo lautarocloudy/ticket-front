@@ -3,15 +3,13 @@ import Modal from 'react-modal';
 import { updateTicket } from '../../services/ticketService';
 
 const TicketEditModal = ({ isOpen, onClose, ticket }) => {
-  // Estado del formulario
+  // Obtener los datos para el formulario
   const [formData, setFormData] = useState({
     name: ticket.name,
     description: ticket.description,
     status: ticket.status,
     difficulty: ticket.difficulty,
   });
-
-  // Estado para controlar si el formulario está editable
   const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
@@ -25,6 +23,7 @@ const TicketEditModal = ({ isOpen, onClose, ticket }) => {
     }
   }, [ticket]);
 
+  // Obtener los datos para actualizar
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -33,15 +32,15 @@ const TicketEditModal = ({ isOpen, onClose, ticket }) => {
   // Habilitar edición
   const handleUpdateClick = (e) => {
     e.preventDefault();
-    setIsEditable(true); // Habilita los campos para edición
+    setIsEditable(true);
   };
 
-  // Guardar cambios
+  // Actualizar ticket
   const handleSaveClick = async (e) => {
     e.preventDefault();
     try {
-      await updateTicket(ticket.id, formData); // Pasa el ID y los datos del ticket
-      onClose(); // Cierra el modal
+      await updateTicket(ticket.id, formData);
+      onClose();
     } catch (err) {
       console.error('Error al actualizar ticket:', err);
     }
@@ -70,7 +69,6 @@ const TicketEditModal = ({ isOpen, onClose, ticket }) => {
               disabled={!isEditable}
             />
           </div>
-
           <div>
             <label className="block text-gray-700 font-medium mb-1">Description:</label>
             <textarea

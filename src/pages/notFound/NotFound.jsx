@@ -16,7 +16,7 @@ const NotFound = () => {
         }
     }, [token, navigate]);
 
-    return null; // O puedes mostrar un mensaje temporal mientras redirige
+    return null;
 };
 
 export default NotFound;

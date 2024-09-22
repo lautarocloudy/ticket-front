@@ -3,14 +3,12 @@ import { createContext, useContext, useState, useEffect } from 'react';
 // Crear el contexto
 const AuthContext = createContext();
 
-// Hook personalizado para acceder al contexto
 export const useAuth = () => useContext(AuthContext);
 
-// Proveedor del contexto de autenticación
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token'));
 
-    // Este useEffect asegura que cada vez que el token en localStorage cambie, actualizamos el estado
+    // Asegura que cada vez que el token en localStorage cambie, se actualiza el estado
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         if (storedToken) {

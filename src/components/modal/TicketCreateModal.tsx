@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import { createTicket } from '../../services/ticketService'; // Servicio para crear un ticket
+import { createTicket } from '../../services/ticketService';
 import { getUserInfoFromToken } from '../../utils/jwtUtils';
 
 const TicketCreateModal = ({ isOpen, onClose, onCreate }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    status: 'pendiente', // Estado por defecto
-    difficulty: 'fácil', // Dificultad por defecto
-    user_id: '' // Inicialmente vacío
+    status: 'pendiente',
+    difficulty: 'fácil',
+    user_id: ''
   });
   const [error, setError] = useState("");
 
@@ -20,18 +20,20 @@ const TicketCreateModal = ({ isOpen, onClose, onCreate }) => {
     if (userInfo && userInfo.userId) {
       setFormData(prevState => ({ ...prevState, user_id: userInfo.userId }));
     }
-  }, [isOpen]); // Solo cuando el modal se abre
+  }, [isOpen]);
 
+  // Obtener los datos para crear el ticket
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  // Crear Ticket  
+  const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      await createTicket(formData); // Llama al servicio para crear el ticket
-      onClose(); // Cierra el modal
+      await createTicket(formData);
+      onClose();
     } catch (err) {
       setError('Error al crear el ticket');
       console.error(err);
@@ -49,7 +51,7 @@ const TicketCreateModal = ({ isOpen, onClose, onCreate }) => {
     >
       <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Nuevo Ticket</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleCreate} className="space-y-4">
           <div>
             <label className="block text-gray-700 font-medium mb-1">Nombre del Ticket:</label>
             <input
